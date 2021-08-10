@@ -53,12 +53,12 @@ public class FlowFieldController : MonoBehaviour
     }
 
     void LateUpdate(){
-        // if(timer > 0){
-        //     timer -= Time.deltaTime;
-        // }else{
-        //     timer = refreshRate;
+        if(timer > 0){
+            timer -= Time.deltaTime;
+        }else{
+            timer = refreshRate;
             GenerateNewField(player.transform.position,b1,b2);
-        // }
+        }
     }
 
     // Generate a new FlowField from destination and bounds
