@@ -6,8 +6,16 @@ using UnityEngine;
 public class FlowFieldController : MonoBehaviour
 {
 
+    [Header("Field generation settings")]
     // determines whether or not we will re-check for obstacles
     public bool dynamicObstacles;
+
+    public float cellSize;
+
+    public Vector3 b1;
+    public Vector3 b2;
+
+    public GameObject player;
 
     [Header("Debug Options")]
     public bool showObstacles;
@@ -25,13 +33,6 @@ public class FlowFieldController : MonoBehaviour
 
     // Utility used for transforming between world and grid coordinates
     CustomGrid cg;
-    
-    public float cellSize;
-
-    public Vector3 b1;
-    public Vector3 b2;
-
-    public GameObject player;
 
     [Header("Resource Allocation")]
     public int cellsPerFrame;
@@ -82,14 +83,14 @@ public class FlowFieldController : MonoBehaviour
             }
 
             // show dijkstra values
-            if(showDijkstra){
-                for (int i = 0; i < dGrid.GetLength(0); i++){
-                    for(int j = 0; j < dGrid.GetLength(1); j++){
-                        string val = dGrid[i,j].ToString();
-                        UnityEditor.Handles.Label(new Vector3((i - 10) * 5, 1.0f, (j - 20) * 5), val);
-                    }
-                }
-            }
+            // if(showDijkstra){
+            //     for (int i = 0; i < dGrid.GetLength(0); i++){
+            //         for(int j = 0; j < dGrid.GetLength(1); j++){
+            //             string val = dGrid[i,j].ToString();
+            //             UnityEditor.Handles.Label(new Vector3((i - 10) * 5, 1.0f, (j - 20) * 5), val);
+            //         }
+            //     }
+            // }
 
             // show vectors
             if(showVectors){
