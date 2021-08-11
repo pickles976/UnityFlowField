@@ -11,13 +11,13 @@ public class FlowFieldFactory
     public static Dictionary<Tuple<int,int>,Vector3> GenerateFlowField(CustomGrid cg, Dictionary<Tuple<int,int>,int> blocked, Vector3 bounds1, Vector3 bounds2, Vector3 destination, int cellsPerFrame){
 
         // get top right and bottom-left corners
-        Tuple<Vector2,Vector2> newBounds = ObstacleGrid.getBounds(new Vector2(bounds1.x,bounds1.z),new Vector2(bounds2.x,bounds2.z));
-        Vector2 bottomLeft = newBounds.Item1;
-        Vector2 topRight = newBounds.Item2;
+        Tuple<Vector3,Vector3> newBounds = ObstacleGrid.getBounds(bounds1,bounds2);
+        Vector3 bottomLeft = newBounds.Item1;
+        Vector3 topRight = newBounds.Item2;
 
         // bounds in grid coordinates
-        Tuple<int,int> b1 = cg.xzToCell(bottomLeft);
-        Tuple<int,int> b2 = cg.xzToCell(topRight);
+        Tuple<int,int> b1 = cg.worldToCell(bottomLeft);
+        Tuple<int,int> b2 = cg.worldToCell(topRight);
 
         int numCols = b2.Item1 - b1.Item1; // x length
         int numRows = b2.Item2 - b1.Item2; // z length

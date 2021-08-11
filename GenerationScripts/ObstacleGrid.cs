@@ -10,10 +10,10 @@ using UnityEngine;
 public class ObstacleGrid
 {
 
-    public static Tuple<Vector2,Vector2> getBounds(Vector2 bounds1, Vector2 bounds2){
+    public static Tuple<Vector3,Vector3> getBounds(Vector3 bounds1, Vector3 bounds2){
 
-        Vector2 bottomLeft = Vector2.zero;
-        Vector2 topRight = Vector2.zero;
+        Vector3 bottomLeft = Vector2.zero;
+        Vector3 topRight = Vector2.zero;
 
          // we want to get the top-right and bottom-left corners of a box given any bounds
         if (bounds1.x < bounds2.x){
@@ -24,20 +24,20 @@ public class ObstacleGrid
             topRight.x = bounds1.x;
         }
 
-        if (bounds1.y < bounds2.y){
-            bottomLeft.y = bounds1.y;
-            topRight.y = bounds2.y;
+        if (bounds1.z < bounds2.z){
+            bottomLeft.z = bounds1.z;
+            topRight.z = bounds2.z;
         }else{
-            bottomLeft.y = bounds2.y;
-            topRight.y = bounds1.y;
+            bottomLeft.z = bounds2.z;
+            topRight.z = bounds1.z;
         }
 
-        return new Tuple<Vector2,Vector2>(bottomLeft,topRight);
+        return new Tuple<Vector3,Vector3>(bottomLeft,topRight);
     }
 
     //This function will generate a 2D array of either NULL or MAXINT depending on whether there are
     //obstacles in the way or not.
-    public static Dictionary<Tuple<int,int>,int> GenerateBlockedDictionary(CustomGrid cg, Vector3 bounds1, Vector3 bounds2)
+    public static Dictionary<Tuple<int,int>,int> GenerateBlockedDictionary(CustomGrid cg, Vector3 bounds1, Vector3 bounds2, int obstacleMask)
     {
 
         float cellSize = cg.cellSize;
@@ -50,13 +50,13 @@ public class ObstacleGrid
 
         Vector3 offset = (Vector3.right * 0.5f * cellSize) + (Vector3.forward * 0.5f * cellSize);
 
-        Tuple<Vector2,Vector2> newBounds = getBounds(new Vector2(bounds1.x,bounds1.z),new Vector2(bounds2.x,bounds2.z));
-        Vector2 bottomLeft = newBounds.Item1;
-        Vector2 topRight = newBounds.Item2;
+        Tuple<Vector3,Vector3> newBounds = getBounds(bounds1,bounds2);
+        Vector3 bottomLeft = newBounds.Item1;
+        Vector3 topRight = newBounds.Item2;
 
         // bounds in grid coordinates
-        Tuple<int,int> b1 = cg.xzToCell(bottomLeft);
-        Tuple<int,int> b2 = cg.xzToCell(topRight);
+        Tuple<int,int> b1 = cg.worldToCell(bottomLeft);
+        Tuple<int,int> b2 = cg.worldToCell(topRight);
 
         int numCols = b2.Item1 - b1.Item1; // x length
         int numRows = b2.Item2 - b1.Item2; // z length
@@ -76,7 +76,7 @@ public class ObstacleGrid
                 Vector3 origin = cg.cellToWorld(row, col) + offset + (1000.0f * Vector3.up);
 
                 //check for obstacle
-                if (Physics.SphereCast(origin, radius, Vector3.down,out hit, 50000.0f, (1 << 10)))
+                if (Physics.SphereCast(origin, radius, Vector3.down,out hit, 50000.0f, (1<<obstacleMask)))
                 {
                     //return the GameObject we hit
                     go = hit.transform.gameObject;
