@@ -77,7 +77,7 @@ public class FlowFieldController : MonoBehaviour
                 Gizmos.color = new Color(1, 0.5f, 0.5f, 0.5f);
                 foreach(KeyValuePair<Tuple<int,int>,int> pair in obstacles){
                     if(pair.Value == Int32.MaxValue){
-                        Gizmos.DrawCube(cg.tupleToWorld(pair.Key), new Vector3(cellSize,cellSize,cellSize));
+                        Gizmos.DrawCube(cg.tupleToWorld(pair.Key) + (Vector3.forward * cellSize / 2) + (Vector3.right * cellSize / 2), new Vector3(cellSize,cellSize,cellSize));
                     }
                 }
             }
@@ -96,7 +96,7 @@ public class FlowFieldController : MonoBehaviour
             if(showVectors){
                 Gizmos.color = new Color(1, 1.0f, 1.0f, 1.0f);
                 foreach(KeyValuePair<Tuple<int,int>,Vector3> pair in ff){
-                    DrawArrow.ForDebug(cg.tupleToWorld(pair.Key),pair.Value);
+                    DrawArrow.ForDebug(cg.tupleToWorld(pair.Key) + (Vector3.forward * cellSize / 2) + (Vector3.right * cellSize / 2),pair.Value);
                 }
             }
     }
