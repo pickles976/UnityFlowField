@@ -12,8 +12,11 @@ public class FlowFieldController : MonoBehaviour
 
     public float cellSize;
 
+    // TODO: BUG, X AND Z ARE FLIPPED (HOW DID THIS HAPPEN???)
     public Vector3 b1;
     public Vector3 b2;
+
+    public int obstacleLayer;
 
     public GameObject player;
 
@@ -48,7 +51,7 @@ public class FlowFieldController : MonoBehaviour
         cg = new CustomGrid(cellSize);
 
         //generate initial obstacle grid
-        obstacles = ObstacleGrid.GenerateBlockedDictionary(cg,b1,b2);
+        obstacles = ObstacleGrid.GenerateBlockedDictionary(cg,b1,b2,obstacleLayer);
         GenerateNewField(Vector3.zero,b1,b2);
     }
 
@@ -64,7 +67,7 @@ public class FlowFieldController : MonoBehaviour
     // Generate a new FlowField from destination and bounds
     void GenerateNewField(Vector3 destination, Vector3 bound1, Vector3 bound2){
         if(dynamicObstacles){
-            obstacles = ObstacleGrid.GenerateBlockedDictionary(cg,bound1,bound2);
+            obstacles = ObstacleGrid.GenerateBlockedDictionary(cg,bound1,bound2,obstacleLayer);
         }
         FlowFieldProvider.GenerateNewField(cg,obstacles,bound1,bound2,destination,cellsPerFrame);
         ff = FlowFieldProvider.GetField();

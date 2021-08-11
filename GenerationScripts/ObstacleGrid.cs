@@ -37,7 +37,7 @@ public class ObstacleGrid
 
     //This function will generate a 2D array of either NULL or MAXINT depending on whether there are
     //obstacles in the way or not.
-    public static Dictionary<Tuple<int,int>,int> GenerateBlockedDictionary(CustomGrid cg, Vector3 bounds1, Vector3 bounds2)
+    public static Dictionary<Tuple<int,int>,int> GenerateBlockedDictionary(CustomGrid cg, Vector3 bounds1, Vector3 bounds2, int obstacleMask)
     {
 
         float cellSize = cg.cellSize;
@@ -76,7 +76,7 @@ public class ObstacleGrid
                 Vector3 origin = cg.cellToWorld(row, col) + offset + (1000.0f * Vector3.up);
 
                 //check for obstacle
-                if (Physics.SphereCast(origin, radius, Vector3.down,out hit, 50000.0f, (1 << 10)))
+                if (Physics.SphereCast(origin, radius, Vector3.down,out hit, 50000.0f, (1<<obstacleMask)))
                 {
                     //return the GameObject we hit
                     go = hit.transform.gameObject;
