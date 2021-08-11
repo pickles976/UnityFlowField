@@ -38,10 +38,12 @@ public class FlowFieldController : MonoBehaviour
     CustomGrid cg;
 
     [Header("Resource Allocation")]
-    public int cellsPerFrame;
-    public int obstacleChecksPerFrame;
     public float refreshRate;
     float timer;
+
+    // TODO: will be used for Async processing, not used at all right now
+    public int cellsPerFrame;
+    public int obstacleChecksPerFrame;
 
     // Start is called before the first frame update
     void Awake()
@@ -85,6 +87,8 @@ public class FlowFieldController : MonoBehaviour
                 }
             }
 
+
+            // TODO: SAVE DIJKSTRA GRID IN A STATIC CLASS TO ACCESS FOR DEBUG DRAWING
             // show dijkstra values
             // if(showDijkstra){
             //     for (int i = 0; i < dGrid.GetLength(0); i++){
